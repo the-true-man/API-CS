@@ -1,54 +1,6 @@
 [
   {
     "isBanned": false,
-    "failTry": 1,
-    "Id": 0,
-    "Name": "Евгений",
-    "lastName": "Михайлов",
-    "middleName": "Юрьевич",
-    "birthday": "21.08.2006",
-    "email": "qwe@qwe.qwe",
-    "password": "qwe123",
-    "timeBan": "2024-12-04T17:27:35.104Z"
-  },
-  {
-    "isBanned": false,
-    "failTry": 0,
-    "Id": 0,
-    "Name": "asd",
-    "lastName": "asd",
-    "middleName": "asd",
-    "birthday": "Mon Aug 21 00:00:00 GMT+05:00 2006",
-    "email": "asd@asd.asd",
-    "password": "asd123",
-    "timeBan": "2024-12-04T22:52:35.495994+05:00"
-  },
-  {
-    "isBanned": false,
-    "failTry": 0,
-    "Id": 0,
-    "Name": "zxc",
-    "lastName": "zxc",
-    "middleName": "zxc",
-    "birthday": "Mon Aug 21 00:00:00 GMT+05:00 2006",
-    "email": "zxc@qwe.qwe",
-    "password": "qwe123",
-    "timeBan": "2024-12-04T22:55:17.343207+05:00"
-  },
-  {
-    "isBanned": false,
-    "failTry": 0,
-    "Id": 0,
-    "Name": "zxc",
-    "lastName": "zxc",
-    "middleName": "zxc",
-    "birthday": "21.08.2006",
-    "email": "zxc@zxc.cx",
-    "password": "qwe123",
-    "timeBan": "2024-12-04T22:57:13.627082+05:00"
-  },
-  {
-    "isBanned": false,
     "failTry": 0,
     "Id": 1,
     "Name": "Danil",
@@ -58,5 +10,17 @@
     "email": "danil@mail.ru",
     "password": "qwe123",
     "timeBan": "2024-12-05T11:55:36.440427+05:00"
+  },
+  {
+    "isBanned": false,
+    "failTry": 0,
+    "Id": 2,
+    "Name": "Вася",
+    "lastName": "Василиев",
+    "middleName": "Василиевич",
+    "birthday": "6.6.2006",
+    "email": "vasya@mail.ru",
+    "password": "qwe123",
+    "timeBan": "2024-12-05T09:08:33.542Z"
   }
 ]

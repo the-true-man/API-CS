@@ -35,3 +35,4 @@
 /Users/evgenijmihajlov/VisualStudioProjects/JSONAPI/obj/Debug/net8.0/ref/JSONAPI.dll
 /Users/evgenijmihajlov/VisualStudioProjects/JSONAPI/bin/Debug/net8.0/Newtonsoft.Json.dll
 /Users/evgenijmihajlov/VisualStudioProjects/JSONAPI/bin/Debug/net8.0/Data/allUsers.json
+/Users/evgenijmihajlov/VisualStudioProjects/JSONAPI/obj/Debug/net8.0/JSONAPI.sourcelink.json

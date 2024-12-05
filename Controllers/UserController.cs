@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Sockets;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -71,9 +72,17 @@ namespace JSONAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<Person> Delete(int id)
         {
-            
+            var users = FileSingleton.deserializeCoolection<Person>(FileSingleton.pathToFileWithUsers);
+            var userForDelete = users.FirstOrDefault(u => u.Id == id);
+            if(userForDelete == null) {
+                return NotFound("Пользователь не найден");
+            }
+            users.Remove(userForDelete);
+            FileSingleton.serializeCollection(FileSingleton.pathToFileWithUsers, users);
+            return Ok("Пользователь удален");
+
         }
 
         private void userBanAndSerilize(Person user, string userFilePath, List<Person> allUsers)
