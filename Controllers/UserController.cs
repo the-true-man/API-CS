@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Sockets;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -12,9 +13,9 @@ namespace JSONAPI.Controllers
     public class UserController : ControllerBase
     {
         [HttpGet("ListAllUsers")]
-        public ActionResult<Person> GetAllListUsers()
+        public ActionResult<User> GetAllListUsers()
         {
-            var users = FileSingleton.deserializeCoolection<Person>(FileSingleton.pathToFileWithUsers);
+            var users = FileSingleton.deserializeCoolection<User>(FileSingleton.pathToFileWithUsers);
             if (users == null || users.Count == 0)
             {
                 return NotFound("Пользователи не найдены");
@@ -24,29 +25,29 @@ namespace JSONAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Person> GetUserById(int id)
+        public ActionResult<User> GetUserById(int id)
         {
-            var userByID = FileSingleton.deserializeCoolection<Person>(FileSingleton.pathToFileWithUsers).FirstOrDefault(u => id == u.Id);
+            var userByID = FileSingleton.deserializeCoolection<User>(FileSingleton.pathToFileWithUsers).FirstOrDefault(u => id == u.Id);
             return userByID == null ? NotFound() : Ok(userByID);
         }
 
         [HttpPost("Auth")]
-        public ActionResult<Person> Auth([FromBody] LoginRequest loginRequest)
+        public ActionResult<User> Auth([FromBody] LoginRequest loginRequest)
         {
-            var allUsers = FileSingleton.deserializeCoolection<Person>(FileSingleton.pathToFileWithUsers);
-            var user_check = allUsers.FirstOrDefault(u => u.email == loginRequest.Email);
+            var allUsers = FileSingleton.deserializeCoolection<User>(FileSingleton.pathToFileWithUsers);
+            var user_check = allUsers.FirstOrDefault(u => u.Email == loginRequest.Email);
             if(user_check == null )
             {
                 return NotFound("Не верный логин или пароль!");
             }
-            if (user_check.timeBan > DateTime.Now)
+            if (user_check.TimeBan > DateTime.Now)
             {
                 return BadRequest("Пользователь заблокирован попробуйте позже");
             }
-            user_check = allUsers.FirstOrDefault(u => u.email == loginRequest.Email && u.password == loginRequest.Password);
+            user_check = allUsers.FirstOrDefault(u => u.Email == loginRequest.Email && u.Password == loginRequest.Password);
             if (user_check == null)
             {
-                user_check = allUsers.FirstOrDefault(u => u.email == loginRequest.Email);
+                user_check = allUsers.FirstOrDefault(u => u.Email == loginRequest.Email);
                 user_check.failTry += 1;
                 userBanAndSerilize(user_check, FileSingleton.pathToFileWithUsers, allUsers);
                 return NotFound("Не верный логин или пароль!");
@@ -56,36 +57,59 @@ namespace JSONAPI.Controllers
         }
 
         [HttpPost("Registration")]
-        public ActionResult<Person> Registration([FromBody]Person person)
+        public ActionResult<User> Registration([FromBody]User person)
         {
-            var users = FileSingleton.deserializeCoolection<Person>(FileSingleton.pathToFileWithUsers);
-            if(users.FirstOrDefault(u => u.email == person.email) != null)
+            var users = FileSingleton.deserializeCoolection<User>(FileSingleton.pathToFileWithUsers);
+            if(users.FirstOrDefault(u => u.Email == person.Email) != null)
             {
                 return BadRequest("Ошибка регистрации: данный email уже зарегистрирован!");
             }
             person.Id = users.Count>0 ? users.Max(u => u.Id)+1 : 1;
 
             users.Add(person);
-            FileSingleton.serializeCollection<Person>(FileSingleton.pathToFileWithUsers, users);
+            FileSingleton.serializeCollection<User>(FileSingleton.pathToFileWithUsers, users);
             return Ok(person);
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<User> Delete(int id)
         {
-            
+            var users = FileSingleton.deserializeCoolection<User>(FileSingleton.pathToFileWithUsers);
+            var userForDelete = users.FirstOrDefault(u => u.Id == id);
+            if(userForDelete == null) {
+                return NotFound("Пользователь не найден");
+            }
+            users.Remove(userForDelete);
+            FileSingleton.serializeCollection(FileSingleton.pathToFileWithUsers, users);
+            return Ok("Пользователь удален");
+
         }
 
-        private void userBanAndSerilize(Person user, string userFilePath, List<Person> allUsers)
+        [HttpPut("Edit")]
+        public ActionResult<User> Edit(int id, [FromBody] User person) 
+        {
+            var users = FileSingleton.deserializeCoolection<User>(FileSingleton.pathToFileWithUsers);
+            var user = users.FirstOrDefault(u => u.Id == id);
+            if (user == null)
+            {
+                return NotFound("Пользователь не найден.");
+            }
+            user.Name = person.Name;
+            user.Lastname = person.Lastname;
+            user.Midname = person.Midname;
+            FileSingleton.serializeCollection(FileSingleton.pathToFileWithUsers, users);
+            return Ok(user);
+        }
+
+        private void userBanAndSerilize(User user, string userFilePath, List<User> allUsers)
         {
             if (user.failTry == 10)
             {
                 user.isBanned = true;
-                user.timeBan = DateTime.Now.AddMinutes(30);
+                user.TimeBan = DateTime.Now.AddMinutes(30);
                 user.failTry = 0;
             }
             FileSingleton.serializeCollection(userFilePath, allUsers);
-
         }
     }
 }
