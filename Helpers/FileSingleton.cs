@@ -44,7 +44,7 @@ namespace registration.Classes
             {
                 return [];
             }
-            return JsonConvert.DeserializeObject<List<T>>(data);
+            return JsonConvert.DeserializeObject<List<T>>(data) ?? [];
         }
     }
 }

@@ -2,25 +2,15 @@
   {
     "isBanned": false,
     "failTry": 0,
+    "address": "",
+    "urlPhone": "",
     "Id": 1,
     "Name": "Danil",
     "lastName": "Rakhmaev",
     "middleName": "Denisovich",
-    "birthday": "21.08.2006",
-    "email": "danil@mail.ru",
+    "birthday": "23.6.2006",
+    "email": "qwe@qwe.qwe",
     "password": "qwe123",
-    "timeBan": "2024-12-05T11:55:36.440427+05:00"
-  },
-  {
-    "isBanned": false,
-    "failTry": 0,
-    "Id": 2,
-    "Name": "Вася",
-    "lastName": "Василиев",
-    "middleName": "Василиевич",
-    "birthday": "6.6.2006",
-    "email": "vasya@mail.ru",
-    "password": "qwe123",
-    "timeBan": "2024-12-05T09:08:33.542Z"
+    "timeBan": "2024-12-07T00:11:33.043352+05:00"
   }
 ]
